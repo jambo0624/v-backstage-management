@@ -88,15 +88,13 @@ export default {
       this.getUserList()
     },
     // 监听switch开关状态的改变
-    userStateChange(userinfo) {
-      this.$http.put(`users/${userinfo.id}/state/${userinfo.mg_state}`).then((data) => {
-        const { data: res } = data
-        if (res.meta.status !== 200) {
-          userinfo.mg_state = !userinfo.mg_state
-          return this.$message.error('更新状态用户失败！')
-        }
-        this.$message.success('更新状态成功！')
-      })
+    async userStateChange(userinfo) {
+      const { data: res } = await this.$http.put(`users/${userinfo.id}/state/${userinfo.mg_state}`)
+      if (res.meta.status !== 200) {
+        userinfo.mg_state = !userinfo.mg_state
+        return this.$message.error('更新状态用户失败！')
+      }
+      this.$message.success('更新状态成功！')
     }
   }
 }
