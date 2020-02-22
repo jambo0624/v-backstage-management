@@ -20,6 +20,7 @@
           unique-opened
           :collapse="isCollapse"
           :collapse-transition="false"
+          router
         >
           <!-- 一级菜单 可折叠，group和item不可折叠-->
           <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id">
@@ -28,7 +29,7 @@
               <i :class="iconsObj[item.id]"></i>
               <span>{{item.authName}}</span>
             </template>
-            <el-menu-item index="subItem.id+''" v-for="subItem in item.children" :key="subItem.id">
+            <el-menu-item :index="'/' + subItem.path" v-for="subItem in item.children" :key="subItem.id">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>{{subItem.authName}}</span>
@@ -72,6 +73,7 @@ export default {
       const { data: res } = await this.$http.get('/menus')
       if (res.data.meta === 200) return this.$message.error(res.meta.msg)
       this.menulist = res.data
+      console.log(res.data)
     },
     toggleCollapse() {
       this.isCollapse = !this.isCollapse
