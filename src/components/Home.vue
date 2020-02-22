@@ -20,16 +20,16 @@
           unique-opened
           :collapse="isCollapse"
           :collapse-transition="false"
-          router
+          router :default-active="activePath"
         >
           <!-- 一级菜单 可折叠，group和item不可折叠-->
-          <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id">
+          <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id" @click="saveNavState">
             <!-- 一级菜单模板区 -->
             <template slot="title">
               <i :class="iconsObj[item.id]"></i>
               <span>{{item.authName}}</span>
             </template>
-            <el-menu-item :index="'/' + subItem.path" v-for="subItem in item.children" :key="subItem.id">
+            <el-menu-item :index="'/' + subItem.path" v-for="subItem in item.children" :key="subItem.id" @click="saveNavState('/' + subItem.path)">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>{{subItem.authName}}</span>
@@ -58,11 +58,14 @@ export default {
         102: 'iconfont icon-danju',
         145: 'iconfont icon-baobiao'
       },
-      isCollapse: false
+      isCollapse: false,
+      // 被激活的链接路径
+      activePath: ''
     }
   },
   created() {
     this.getMenuList()
+    this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
     logout() {
@@ -77,6 +80,10 @@ export default {
     },
     toggleCollapse() {
       this.isCollapse = !this.isCollapse
+    },
+    saveNavState(activePath) {
+      window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
     }
   }
 }
