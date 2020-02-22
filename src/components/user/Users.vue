@@ -25,7 +25,8 @@
         <el-table-column label="角色" prop="role_name"></el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
-            <el-switch v-model="scope.row.mg_state"></el-switch>
+            <el-switch @change="userStateChange(scope.row)"
+            v-model="scope.row.mg_state"></el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="210px">
@@ -85,6 +86,17 @@ export default {
     handleCurrentChange(newPage) {
       this.queryInfo.pagenum = newPage
       this.getUserList()
+    },
+    // 监听switch开关状态的改变
+    userStateChange(userinfo) {
+      this.$http.put(`users/${userinfo.id}/state/${userinfo.mg_state}`).then((data) => {
+        const { data: res } = data
+        if (res.meta.status !== 200) {
+          userinfo.mg_state = !userinfo.mg_state
+          return this.$message.error('更新状态用户失败！')
+        }
+        this.$message.success('更新状态成功！')
+      })
     }
   }
 }
