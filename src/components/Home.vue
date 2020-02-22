@@ -16,6 +16,7 @@
           background-color="#333744"
           text-color="#fff"
           active-text-color="#409eff"
+          unique-opened
         >
           <!-- 一级菜单 可折叠，group和item不可折叠-->
           <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id">
@@ -104,5 +105,8 @@ export default {
 }
 .iconfont {
   margin-right: 10px;
+}
+.el-menu {
+  border-right: none;
 }
 </style>
