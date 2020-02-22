@@ -28,8 +28,25 @@
             <el-switch v-model="scope.row.mg_state"></el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作"></el-table-column>
+        <el-table-column label="操作" width="210px">
+          <template slot-scope="">
+            <el-button type="primary" icon="el-icon-edit" size="min"></el-button>
+            <el-button type="danger" icon="el-icon-delete" size="min"></el-button>
+            <el-tooltip effect="dark" content="设置角色" placement="top" :enterable="false">
+              <el-button type="warning" icon="el-icon-setting" size="min"></el-button>
+            </el-tooltip>
+          </template>
+        </el-table-column>
       </el-table>
+      <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="queryInfo.pagenum"
+      :page-sizes="[1, 2, 5, 10]"
+      :page-size="queryInfo.pagesize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total">
+    </el-pagination>
     </el-card>
   </div>
 </template>
@@ -58,6 +75,16 @@ export default {
       this.userlist = result.data.users
       this.total = result.data.total
       console.log(result)
+    },
+    // 监听pagesize改变的事件
+    handleSizeChange(newSize) {
+      this.queryInfo.pagesize = newSize
+      this.getUserList()
+    },
+    // 监听页码值改变的事件
+    handleCurrentChange(newPage) {
+      this.queryInfo.pagenum = newPage
+      this.getUserList()
     }
   }
 }
