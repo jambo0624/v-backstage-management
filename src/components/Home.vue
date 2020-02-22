@@ -15,18 +15,18 @@
         <el-menu
           background-color="#333744"
           text-color="#fff"
-          active-text-color="#ffd04b"
+          active-text-color="#409eff"
         >
           <!-- 一级菜单 可折叠，group和item不可折叠-->
           <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id">
             <!-- 一级菜单模板区 -->
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i :class="iconsObj[item.id]"></i>
               <span>{{item.authName}}</span>
             </template>
             <el-menu-item index="subItem.id+''" v-for="subItem in item.children" :key="subItem.id">
               <template slot="title">
-                <i class="el-icon-help"></i>
+                <i class="el-icon-menu"></i>
                 <span>{{subItem.authName}}</span>
               </template>
             </el-menu-item>
@@ -43,7 +43,14 @@
 export default {
   data() {
     return {
-      menulist: []
+      menulist: [],
+      iconsObj: {
+        125: 'iconfont icon-user',
+        103: 'iconfont icon-tijikongjian',
+        101: 'iconfont icon-shangpin',
+        102: 'iconfont icon-danju',
+        145: 'iconfont icon-baobiao'
+      }
     }
   },
   created() {
@@ -94,5 +101,8 @@ export default {
 }
 .el-main {
   background: #eaedf1;
+}
+.iconfont {
+  margin-right: 10px;
 }
 </style>
