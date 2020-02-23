@@ -21,3 +21,9 @@ body,
 .el-pagination {
   margin-top: 15px;
 }
+/* 默认样式bug之后修改 */
+.el-cascader__dropdown {
+  width: 30%;
+  height: 400px;
+  overflow: scroll;
+}
