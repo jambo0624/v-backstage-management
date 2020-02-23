@@ -76,7 +76,6 @@ export default {
       const { data: res } = await this.$http.get('/menus')
       if (res.data.meta === 200) return this.$message.error(res.meta.msg)
       this.menulist = res.data
-      console.log(res.data)
     },
     toggleCollapse() {
       this.isCollapse = !this.isCollapse
@@ -99,7 +98,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   color: #fff;
-  font-size: 20px;
+  font-size: 24px;
   div {
     display: flex;
     align-items: center;

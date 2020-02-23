@@ -182,7 +182,6 @@ export default {
       }
       this.userlist = result.data.users
       this.total = result.data.total
-      console.log(result)
     },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {
