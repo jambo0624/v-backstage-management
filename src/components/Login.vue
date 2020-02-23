@@ -32,7 +32,7 @@ export default {
       },
       loginFormRules: {
         username: [
-          { required: true, message: '请输入登录名名称', trigger: 'blur' },
+          { required: true, message: '请输入登录名称', trigger: 'blur' },
           { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
         ],
         password: [

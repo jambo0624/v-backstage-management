@@ -14,7 +14,7 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary">添加用户</el-button>
+          <el-button type="primary" @click="addDialogVisible = true">添加用户</el-button>
         </el-col>
       </el-row>
       <el-table :data="userlist" border stripe>
@@ -25,12 +25,11 @@
         <el-table-column label="角色" prop="role_name"></el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
-            <el-switch @change="userStateChange(scope.row)"
-            v-model="scope.row.mg_state"></el-switch>
+            <el-switch @change="userStateChange(scope.row)" v-model="scope.row.mg_state"></el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="210px">
-          <template slot-scope="">
+          <template slot-scope>
             <el-button type="primary" icon="el-icon-edit" size="min"></el-button>
             <el-button type="danger" icon="el-icon-delete" size="min"></el-button>
             <el-tooltip effect="dark" content="设置角色" placement="top" :enterable="false">
@@ -40,21 +39,61 @@
         </el-table-column>
       </el-table>
       <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="queryInfo.pagenum"
-      :page-sizes="[1, 2, 5, 10]"
-      :page-size="queryInfo.pagesize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total">
-    </el-pagination>
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="queryInfo.pagenum"
+        :page-sizes="[1, 2, 5, 10]"
+        :page-size="queryInfo.pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      ></el-pagination>
     </el-card>
+    <!-- 添加用户的对话框 -->
+    <el-dialog title="添加用户" :visible.sync="addDialogVisible" width="50%">
+      <el-form
+        :model="addForm"
+        :rules="addFormRules"
+        ref="ruleFormRef"
+        label-width="70px"
+      >
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="addForm.username"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="addForm.password"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+         <el-input v-model="addForm.email"></el-input>
+        </el-form-item>
+        <el-form-item label="手机" prop="mobile">
+         <el-input v-model="addForm.mobile"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addDialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 export default {
   data() {
+    var checkEmail = (rule, value, callback) => {
+      const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/
+      if (regEmail.test(value)) {
+        return callback()
+      }
+      callback(new Error('请输入合法的邮箱'))
+    }
+    var checkMobile = (rule, value, callback) => {
+      const regMobile = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
+      if (regMobile.test(value)) {
+        return callback()
+      }
+      callback(new Error('请输入合法的手机号'))
+    }
     return {
       // 获取用户列表的参数对象
       queryInfo: {
@@ -63,7 +102,33 @@ export default {
         pagesize: 2
       },
       userlist: [],
-      total: 0
+      total: 0,
+      addDialogVisible: false,
+      // 添加用户表单数据
+      addForm: {
+        username: '',
+        password: '',
+        email: '',
+        mobile: ''
+      },
+      addFormRules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
+        ],
+        email: [
+          { required: true, message: '请输入邮箱', trigger: 'blur' },
+          { validator: checkEmail, trigger: 'blur' }
+        ],
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { validator: checkMobile, trigger: 'blur' }
+        ]
+      }
     }
   },
   created() {
@@ -71,8 +136,12 @@ export default {
   },
   methods: {
     async getUserList() {
-      const { data: result } = await this.$http.get('/users', { params: this.queryInfo })
-      if (result.meta.status !== 200) return this.$message.error('获取用户列表失败！')
+      const { data: result } = await this.$http.get('/users', {
+        params: this.queryInfo
+      })
+      if (result.meta.status !== 200) {
+        return this.$message.error('获取用户列表失败！')
+      }
       this.userlist = result.data.users
       this.total = result.data.total
       console.log(result)
@@ -89,7 +158,9 @@ export default {
     },
     // 监听switch开关状态的改变
     async userStateChange(userinfo) {
-      const { data: res } = await this.$http.put(`users/${userinfo.id}/state/${userinfo.mg_state}`)
+      const { data: res } = await this.$http.put(
+        `users/${userinfo.id}/state/${userinfo.mg_state}`
+      )
       if (res.meta.status !== 200) {
         userinfo.mg_state = !userinfo.mg_state
         return this.$message.error('更新状态用户失败！')
