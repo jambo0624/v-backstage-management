@@ -73,8 +73,8 @@ export default {
       this.$router.push('/login')
     },
     async getMenuList() {
-      const { data: res } = await this.$http.get('/menus')
-      if (res.data.meta === 200) return this.$message.error(res.meta.msg)
+      const { data: res } = await this.$http.get('menus')
+      if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
       this.menulist = res.data
     },
     toggleCollapse() {
