@@ -27,3 +27,12 @@ body,
   height: 400px;
   overflow: scroll;
 }
+.el-steps {
+  margin: 15px 0;
+}
+.sl-step__input {
+  font-size: 13px;
+}
+.ql-editor {
+  min-height: 300px;
+}
