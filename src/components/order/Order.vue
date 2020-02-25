@@ -9,8 +9,8 @@
     <el-card>
       <el-row>
         <el-col :span="8">
-          <el-input placeholder="请输入内容">
-            <el-button slot="append" icon="el-icon-search"></el-button>
+          <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getOrderList">
+            <el-button slot="append" icon="el-icon-search" @click="getOrderList"></el-button>
           </el-input>
         </el-col>
       </el-row>
@@ -43,7 +43,7 @@
         :page-sizes="[5, 10, 15]"
         :page-size="queryInfo.pagesize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
+        :total="total" background
       ></el-pagination>
     </el-card>
     <!-- 修改地址对话框 -->
@@ -123,7 +123,6 @@ export default {
       }
       this.orderList = res.data.goods
       this.total = res.data.total
-      console.log(this.orderList)
     },
     handleSizeChange(newSize) {
       this.queryInfo.pagesize = newSize
@@ -146,7 +145,6 @@ export default {
         return this.$message.error('获取物流信息失败！')
       }
       this.progressInfo = res.data
-      console.log(this.progressInfo)
       this.progressVisible = true
     }
   }
