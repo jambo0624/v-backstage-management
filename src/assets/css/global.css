@@ -1,3 +1,5 @@
+@import '../../plugins/timeline/timeline.css';
+@import '../../plugins/timeline-item/timeline-item.css';
 /* 全局样式表 */
 html,
 body,
