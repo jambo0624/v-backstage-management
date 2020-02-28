@@ -1,5 +1,7 @@
 // vue.config.js
 module.exports = {
+  publicPath: './',
+  outputDir: 'docs',
   chainWebpack: config => {
     // 发布模式
     config.when(process.env.NODE_ENV === 'production',config => {
