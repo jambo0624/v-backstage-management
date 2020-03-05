@@ -4,7 +4,7 @@
     <el-header>
       <div>
         <img src="../../src/assets/logo.jpg" alt="logo" />
-        <span>后台管理系统</span>
+        <span>悟空后台管理</span>
       </div>
       <el-button type="info" @click="logout">退出</el-button>
     </el-header>
