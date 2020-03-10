@@ -1,0 +1,25 @@
+{
+  "ret": true,
+  "data": {
+    "sightName": "产品编号 3174821387",
+    "bannerImg": "https://img1.qunarzz.com/vs_ceph_vs_tts/fafe9394-8e5f-4ca9-b284-0cde9e516723.jpg_r_1280x840x95_cd6f7120.jpg",
+    "gallaryImgs": ["https://img1.qunarzz.com/vs_ceph_vs_tts/fafe9394-8e5f-4ca9-b284-0cde9e516723.jpg_r_1280x840x95_cd6f7120.jpg", "https://img1.qunarzz.com/vs_ceph_vs_tts/9ef888c0-5965-446b-9a8f-63d1e92f45b1.jpg_r_1280x840x95_cb14b111.jpg", "https://img1.qunarzz.com/vs_ceph_vs_tts/abfe690d-a57c-4dd3-8e77-f1b0e396775d.jpg_r_1280x840x95_dbc77d7b.jpg"],
+    "categoryList": [{
+        "title": "成人票",
+        "children": [{
+          "title": "成人三馆联票",
+          "children": [{
+            "title": "成人三馆联票 - 某一连锁店销售"
+          }]
+        },{
+          "title": "成人五馆联票"
+        }]
+      }, {
+        "title": "学生票"
+      }, {
+        "title": "儿童票"
+      }, {
+        "title": "特惠票"
+      }]
+  }
+}
