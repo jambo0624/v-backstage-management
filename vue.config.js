@@ -4,9 +4,9 @@ module.exports = {
   outputDir: 'docs',
   chainWebpack: config => {
     // 发布模式
-    config.when(process.env.NODE_ENV === 'production',config => {
+    config.when(process.env.NODE_ENV === 'production', config => {
       config.entry('app').clear().add('./src/main-prod.js')
-      config.set('externals',{
+      config.set('externals', {
         vue: 'Vue',
         'vue-router': 'VueRouter',
         axios: 'axios',
@@ -21,7 +21,7 @@ module.exports = {
     })
 
     // 开发模式
-    config.when(process.env.NODE_ENV === 'development',config => {
+    config.when(process.env.NODE_ENV === 'development', config => {
       config.entry('app').clear().add('./src/main.js')
       config.plugin('html').tap(args => {
         args[0].isProd = false
